@@ -29,6 +29,34 @@ router.get('/empresa', (req,res) =>{
         }
     })
   })
+  router.put('/empresa/:id',(req, res)=>{
+    const{id}=req.params
+    const{nombree, ruc, direccion, nombrerep, cargorep, gradosup, 
+        telefono, fechappp,areappp,idperson} = req.body
+  
+    let sql = `update empresa set 
+                nombree ='${nombree}',
+                ruc='${ruc}',
+                direccion='${direccion}',
+                nombrerep='${nombrerep}',
+                cargorep='${cargorep}',
+                gradosup='${gradosup}',
+                telefono='${telefono}',
+                fechappp='${fechappp}',
+                areappp='${areappp}',
+                idperson='${idperson}
+                where idempresa = '${id}'`
+    
+        mysqlConnection.query(sql, (err, rows, fields)=>{
+        if(err) throw err
+        else{
+            res.json({status: 'empresa modificada'})
+        }
+    })
+  })
+  
+
+
   
 
   module.exports = router;

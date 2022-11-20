@@ -27,6 +27,44 @@ router.get('/persona', (req,res) =>{
         }
     })
   })
+  router.put('/persona/:id',(req, res)=>{
+    const{id}=req.params
+    const{nombre, apepat, apemat, codigo, telefono, genero, 
+        religion, nacionalidad,fechanacimiento,ubigeo,dni,estadocivil} = req.body
+  
+    let sql = `update persona set 
+                nombre ='${nombre}',
+                apepat='${apepat}',
+                apemat='${apemat}',
+                codigo='${codigo}',
+                telefono='${telefono}',
+                genero='${genero}',
+                religion='${religion}',
+                nacionalidad='${nacionalidad}',
+                fechanacimiento='${fechanacimiento}',
+                ubigeo='${ubigeo}',
+                dni='${dni}',
+                estadocivil='${estadocivil}'
+                where idpersona = '${id}'`
+    
+        mysqlConnection.query(sql, (err, rows, fields)=>{
+        if(err) throw err
+        else{
+            res.json({status: 'persona modificada'})
+        }
+    })
+  
+  })
+  router.get('/persona/:id',(req, res)=>{
+    const {id} = req.params
+    let sql ='select em.nombree, em.ruc,em.nombrerep,pe.nombre,pe.apepat,pe.apemat from empresa em inner join persona pe on idperson=idpersona where idpersona = ?;'
+    mysqlConnection.query(sql,[id],(err, rows, fields)=>{
+        if(err) throw err;
+        else{
+            res.json(rows)
+        }
+    })
+  })
   
 
   module.exports = router;

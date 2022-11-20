@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const jwt = require('jsonwebtoken');
-const mysqlConnection = require('../connection/connection');
+const pool = require('../connection/connection');
 const app = require('../../app');
 
 
 router.get('/usuario', (req,res) =>{
-    mysqlConnection.query('select * from usuarios', (err,rows,fields)=>{
+  pool.query('select * from usuario', (err,rows,fields)=>{
         if(!err){
             res.json(rows);
        }else{
@@ -16,7 +16,7 @@ router.get('/usuario', (req,res) =>{
     })    
   })
 
-  router.post('/singin', (req,res) => {
+  router.post('/login', (req,res) => {
     const { usuario, password } = req.body;
     mysqlConnection.query('select usuario,rol from usuarios where usuario=? and password=?',
     [usuario,password],
